@@ -20,10 +20,7 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = AppHttpOverrides();
-<<<<<<< HEAD
   await Firebase.initializeApp();
-=======
   await HiveData.init();
->>>>>>> 8bc9adbf42ac5f633ae9880ece72e750ea079396
   runApp(const MyApp());
 }

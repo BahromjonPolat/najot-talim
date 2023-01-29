@@ -17,6 +17,8 @@ import 'package:nt/blocs/blocs.dart';
 import 'package:nt/view/screens/card/select_card.dart';
 import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
 
+import '../api/api_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     ApiScreen(),
     Container(),
-   const SelectCard(),
+    const SelectCard(),
     Container(),
   ];
   @override
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             index: state,
             children: pages,
           ),
-          bottomNavigationBar:const AppBottomNavigationBar(),
+          bottomNavigationBar: const AppBottomNavigationBar(),
         );
       },
     );

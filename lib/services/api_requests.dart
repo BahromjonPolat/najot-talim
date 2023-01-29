@@ -18,6 +18,8 @@
 
 */
 
+import 'package:nt/services/http_result.dart';
+
 import 'api_service.dart';
 
 class ApiRequests extends ApiService {
