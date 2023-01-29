@@ -43,11 +43,6 @@ class _SelectCardState extends State<SelectCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppNavigator.pushNamed(RouteNames.addCard);
-        },
-      ),
       appBar: AppBar(
         elevation: 0.0,
         automaticallyImplyLeading: false,
