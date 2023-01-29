@@ -260,7 +260,8 @@ class _AddCardState extends State<AddCard> {
                       }
                     } else {
                       Utils.fireToast(
-                          'Iltimos ma`lumotlarni to`liq to`ldiring ');
+                        'Iltimos ma`lumotlarni to`liq to`ldiring ',
+                      );
                     }
                   },
                   child: Text(
