@@ -33,9 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationBarBloc, int>(
       builder: (context, state) {
-        return IndexedStack(
-          index: state,
-          children: pages,
+        return Scaffold(
+          body: IndexedStack(
+            index: state,
+            children: pages,
+          ),
         );
       },
     );
