@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      // AppNavigator.pushNamedAndRemoveUntil(RouteNames.home);
+      AppNavigator.pushNamedAndRemoveUntil(RouteNames.home);
     });
   }
 

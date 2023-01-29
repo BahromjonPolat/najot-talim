@@ -11,6 +11,9 @@
 
 */
 
+import 'dart:convert';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -23,10 +26,15 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: FutureBuilder(
-        future: AppFormatter.assetToBytes('assets/images/humo.jpg'),
+        future: DeviceInfoPlugin().androidInfo,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Image.memory(snapshot.requireData);
+            AndroidDeviceInfo info = snapshot.requireData;
+            return Text(
+              const JsonEncoder.withIndent(' ').convert(
+                info.toMap(),
+              ),
+            );
           }
           return const SizedBox();
         },
