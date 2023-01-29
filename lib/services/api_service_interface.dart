@@ -11,6 +11,8 @@
 
 */
 
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 
 import 'http_result.dart';
@@ -26,4 +28,6 @@ abstract class ApiServiceInterface {
   });
 
   HttpResult getResult(http.Response response);
+
+  downloadFile({required String url, required String fileName});
 }
