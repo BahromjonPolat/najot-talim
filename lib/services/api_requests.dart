@@ -1,7 +1,7 @@
 /*
 
   Created by: Bakhromjon Polat
-  Created on: Jan 29 2023 11:31:08
+  Created on: Jan 29 2023 12:01:26
   Github: https://github.com/BahromjonPolat
   Leetcode: https://leetcode.com/BahromjonPolat/
   LinkedIn: https://linkedin.com/in/bahromjon-polat
@@ -11,14 +11,11 @@
 
 */
 
-class AppStrings {
-  static var noInternet = '';
+import 'api_service.dart';
+import 'http_result.dart';
 
-  static var timeOutException = '';
+class ApiRequests extends ApiService {
+  ApiRequests._();
 
-  static var httpError = '';
-
-  static var formatException = '';
-
-  const AppStrings._();
+  static final ApiRequests instance = ApiRequests._();
 }

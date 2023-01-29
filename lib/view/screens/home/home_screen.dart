@@ -12,6 +12,8 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nt/blocs/blocs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,8 +23,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Widget> pages = [
+    Container(),
+    Container(),
+    Container(),
+    Container(),
+  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return BlocBuilder<BottomNavigationBarBloc, int>(
+      builder: (context, state) {
+        return IndexedStack(
+          index: state,
+          children: pages,
+        );
+      },
+    );
   }
 }
