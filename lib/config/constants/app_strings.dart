@@ -19,6 +19,12 @@ class AppStrings {
   static var httpError = '';
 
   static var formatException = '';
-
+  static const String kartaraqami = 'Karta raqami';
+  static const String muddati = 'Amal qilish muddati';
+  static const String kartanomi = 'Karta nomi';
+  static const String kartaegasi = 'Karta egasi to`liq ismi sharifi';
+  static const String kartaturi = 'Karta turi';
+  static const String add = 'Qo`shish';
+    static const String edit = 'Kartani tahrirlash';
   const AppStrings._();
 }

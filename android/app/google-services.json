@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "914662580921",
+    "project_id": "mirrikh-dc4b2",
+    "storage_bucket": "mirrikh-dc4b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914662580921:android:ac6132ba6f906fab417168",
+        "android_client_info": {
+          "package_name": "uz.mirrikh.nt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914662580921-08rk30ph2scrkdaluajb3d83utik28hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYn73NYiRWA83BCjGfffHzaiAg3Ip-EZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914662580921-08rk30ph2scrkdaluajb3d83utik28hf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

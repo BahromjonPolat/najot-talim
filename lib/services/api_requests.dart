@@ -10,12 +10,24 @@
   Documentation: 
 
 */
+/*
+
+  Created by: Abduxalilov Abdulloh
+  Created on: Jan 29 2023 13:00:18
+  Documentation: 
+
+*/
+
+import 'package:nt/services/http_result.dart';
 
 import 'api_service.dart';
-import 'http_result.dart';
 
 class ApiRequests extends ApiService {
   ApiRequests._();
 
   static final ApiRequests instance = ApiRequests._();
+
+  Future<HttpResult> getCounties() async {
+    return await get('/countries');
+  }
 }
