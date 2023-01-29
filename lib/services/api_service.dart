@@ -12,9 +12,14 @@
 */
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:nt/services/api_service_interface.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'http_result.dart';
 
@@ -68,4 +73,41 @@ class ApiService implements ApiServiceInterface {
 
   @override
   String get baseUrl => 'https://pos.in1.uz/api';
+
+  @override
+  downloadFile({required String fileName, required String url}) async {
+    var httpClient = http.Client();
+    var request = http.Request('GET', Uri.parse(url));
+    var response = httpClient.send(request);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+
+    response.asStream().listen((http.StreamedResponse r) {
+      r.stream.listen((List<int> chunk) {
+        // Display percentage of completion
+        debugPrint(
+            'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+        chunks.add(chunk);
+        downloaded += chunk.length;
+      }, onDone: () async {
+        // Display percentage of completion
+        debugPrint(
+            'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+        // Save the file
+        File file = File('$dir/$fileName');
+        final Uint8List bytes = Uint8List(r.contentLength!);
+        int offset = 0;
+        for (List<int> chunk in chunks) {
+          bytes.setRange(offset, offset + chunk.length, chunk);
+          offset += chunk.length;
+        }
+        await file.writeAsBytes(bytes);
+        return;
+      });
+    });
+  }
 }

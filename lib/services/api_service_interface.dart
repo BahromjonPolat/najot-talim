@@ -26,4 +26,6 @@ abstract class ApiServiceInterface {
   });
 
   HttpResult getResult(http.Response response);
+
+  Stream downloadFile({required String url, required String fileName});
 }
