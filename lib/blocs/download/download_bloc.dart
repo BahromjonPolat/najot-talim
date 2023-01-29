@@ -20,6 +20,7 @@ import 'package:meta/meta.dart';
 import 'package:nt/models/file/file_info.dart';
 import 'package:nt/services/api_service.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 part 'download_event.dart';
 part 'download_state.dart';
@@ -33,6 +34,7 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     on<PauseDownloadingFile>(_pause);
     on<ResumeDownloadinfFile>(_resume);
     on<CheckFileEvent>(_checkFile);
+    on<DownloadingEvent>(_loading);
   }
 
   FutureOr<void> _checkFile(
@@ -57,25 +59,38 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     List<List<int>> chunks = [];
     int downloaded = 0;
 
-    _service
-        .downloadFiles(fileName: fileName, url: event.fileInfo.url)
-        .listen((r) {
-      subscription = r.stream.listen((List<int> chunk) {
+    var httpClient = http.Client();
+    var request = http.Request('GET', Uri.parse(event.fileInfo.url));
+    var response = httpClient.send(request);
+
+    response.asStream().listen((http.StreamedResponse r) {
+      r.stream.listen((List<int> chunk) {
+        // Display percentage of completion
+        double percent = downloaded / r.contentLength! * 100;
+
         chunks.add(chunk);
         downloaded += chunk.length;
-        print(downloaded / r.contentLength! * 100);
+        add(DownloadingEvent(percent));
       }, onDone: () async {
+        // Display percentage of completion
+
+        // Save the file
         final Uint8List bytes = Uint8List(r.contentLength!);
         int offset = 0;
-
         for (List<int> chunk in chunks) {
           bytes.setRange(offset, offset + chunk.length, chunk);
           offset += chunk.length;
         }
         await file.writeAsBytes(bytes);
-        emit(CompletedDownloadinfState(file));
       });
     });
+  }
+
+  FutureOr<void> _loading(
+    DownloadingEvent event,
+    Emitter emit,
+  ) {
+    emit(LoadingDownloadFileState(event.percent.toDouble()));
   }
 
   FutureOr<void> _pause(

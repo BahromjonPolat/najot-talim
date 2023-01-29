@@ -5,7 +5,10 @@ abstract class DownloadState {}
 
 class DownloadInitial extends DownloadState {}
 
-class LoadingDownloadFileState extends DownloadState {}
+class LoadingDownloadFileState extends DownloadState {
+  final double percent;
+  LoadingDownloadFileState(this.percent);
+}
 
 class PausedDownloadFileState extends DownloadState {}
 

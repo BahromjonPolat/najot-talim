@@ -33,6 +33,7 @@ class _DownloadPageState extends State<DownloadPage> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
+        const SliverAppBar(),
         SliverList(
           delegate: SliverChildListDelegate(
             MockFileInfoData.fileInfoList

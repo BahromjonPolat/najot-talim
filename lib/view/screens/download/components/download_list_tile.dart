@@ -20,9 +20,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/download/download_bloc.dart';
 import 'package:nt/config/constants/constants.dart';
 import 'package:nt/models/file/file_info.dart';
-import 'package:path_provider/path_provider.dart' as path;
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 
 class DownloadListTile extends StatelessWidget {
   final FileInfo fileInfo;
@@ -32,7 +29,9 @@ class DownloadListTile extends StatelessWidget {
     return BlocProvider(
       create: (context) => DownloadBloc()..add(CheckFileEvent(fileInfo.url)),
       child: BlocConsumer<DownloadBloc, DownloadState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          print(state);
+        },
         builder: (context, state) {
           DownloadBloc downloadBloc = BlocProvider.of(context);
           bool complated = state is CompletedDownloadinfState;
@@ -48,16 +47,37 @@ class DownloadListTile extends StatelessWidget {
                           : AppIcons.download,
                     ),
                     onPressed: () {
-                      if (state is LoadingDownloadFileState) {
-                        downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
-                      } else {
-                        downloadBloc.add(PauseDownloadingFile());
-                      }
+                      downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+
+                      // if (state is! LoadingDownloadFileState) {
+                      //   downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+                      // } else {
+                      //   downloadBloc.add(PauseDownloadingFile());
+                      // }
                     },
                   ),
+            subtitle: LinearProgressIndicator(
+              value: _getPercent(state),
+              color: state is CompletedDownloadinfState
+                  ? AppColors.primary
+                  : AppColors.blue,
+            ),
+            onTap: () {
+              downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+            },
           );
         },
       ),
     );
+  }
+
+  double _getPercent(DownloadState state) {
+    if (state is LoadingDownloadFileState) {
+      return state.percent / 100;
+    } else if (state is CompletedDownloadinfState) {
+      return 1.0;
+    }
+
+    return 0.0;
   }
 }

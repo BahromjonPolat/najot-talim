@@ -15,3 +15,8 @@ class CheckFileEvent extends DownloadEvent {
   final String url;
   CheckFileEvent(this.url);
 }
+
+class DownloadingEvent extends DownloadEvent {
+  final num percent;
+  DownloadingEvent(this.percent);
+}
