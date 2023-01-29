@@ -11,15 +11,13 @@
 
 */
 
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nt/blocs/download/download_bloc.dart';
 import 'package:nt/config/constants/constants.dart';
 import 'package:nt/models/file/file_info.dart';
+import 'package:open_file/open_file.dart';
 
 class DownloadListTile extends StatelessWidget {
   final FileInfo fileInfo;
@@ -29,15 +27,14 @@ class DownloadListTile extends StatelessWidget {
     return BlocProvider(
       create: (context) => DownloadBloc()..add(CheckFileEvent(fileInfo.url)),
       child: BlocConsumer<DownloadBloc, DownloadState>(
-        listener: (context, state) {
-          print(state);
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           DownloadBloc downloadBloc = BlocProvider.of(context);
           bool complated = state is CompletedDownloadinfState;
           return ListTile(
             title: Text(fileInfo.fileName),
-            trailing: complated
+            trailing: const Icon(Icons.file_copy),
+            leading: complated
                 ? const Icon(AppIcons.downloaded)
                 : IconButton(
                     color: AppColors.black,
@@ -47,13 +44,13 @@ class DownloadListTile extends StatelessWidget {
                           : AppIcons.download,
                     ),
                     onPressed: () {
-                      downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
-
-                      // if (state is! LoadingDownloadFileState) {
-                      //   downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
-                      // } else {
-                      //   downloadBloc.add(PauseDownloadingFile());
-                      // }
+                      if (state is PausedDownloadFileState) {
+                        downloadBloc.add(ResumeDownloadinfFile());
+                      } else if (state is LoadingDownloadFileState) {
+                        downloadBloc.add(PauseDownloadingFile());
+                      } else {
+                        downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+                      }
                     },
                   ),
             subtitle: LinearProgressIndicator(
@@ -62,8 +59,14 @@ class DownloadListTile extends StatelessWidget {
                   ? AppColors.primary
                   : AppColors.blue,
             ),
-            onTap: () {
-              downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+            onTap: () async {
+              if (state is CompletedDownloadinfState) {
+                await OpenFile.open(state.file.path);
+              } else if (state is LoadingDownloadFileState) {
+                Fluttertoast.showToast(msg: "Yuklanyapti");
+              } else {
+                downloadBloc.add(DownloadFromUrl(fileInfo: fileInfo));
+              }
             },
           );
         },
@@ -76,6 +79,8 @@ class DownloadListTile extends StatelessWidget {
       return state.percent / 100;
     } else if (state is CompletedDownloadinfState) {
       return 1.0;
+    } else if (state is PausedDownloadFileState) {
+      return state.percent / 100;
     }
 
     return 0.0;

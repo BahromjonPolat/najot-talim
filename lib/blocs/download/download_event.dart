@@ -20,3 +20,8 @@ class DownloadingEvent extends DownloadEvent {
   final num percent;
   DownloadingEvent(this.percent);
 }
+
+class OnCompleteEvent extends DownloadEvent {
+  final File file;
+  OnCompleteEvent(this.file);
+}

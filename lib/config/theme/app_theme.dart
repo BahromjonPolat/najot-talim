@@ -49,7 +49,7 @@ class AppTheme {
       ),
 
       listTileTheme: const ListTileThemeData(
-        iconColor: AppColors.white,
+        iconColor: AppColors.primary,
       ),
 
       // outlined button theme

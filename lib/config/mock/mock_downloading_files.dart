@@ -17,8 +17,23 @@ class MockFileInfoData {
   const MockFileInfoData._();
   static List<FileInfo> get fileInfoList => [
         FileInfo(
-          fileName: '"PythonBook",',
+          fileName: '"PythonBook"',
           url: 'https://bilimlar.uz/wp-content/uploads/2021/02/k100001.pdf',
+        ),
+        FileInfo(
+          fileName: 'Image',
+          url:
+              'https://images.unsplash.com/photo-1674976645516-7b20134fdeb3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
+        ),
+        FileInfo(
+          fileName: '"Duck",',
+          url:
+              'https://images.unsplash.com/photo-1674903273402-d7ca38d6afc5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        ),
+        FileInfo(
+          fileName: 'Video',
+          url:
+              'https://file-examples.com/storage/fe0358100863d05afed02d2/2017/04/file_example_MP4_1920_18MG.mp4',
         ),
       ];
 }

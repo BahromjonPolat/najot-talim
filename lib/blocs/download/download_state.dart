@@ -10,7 +10,10 @@ class LoadingDownloadFileState extends DownloadState {
   LoadingDownloadFileState(this.percent);
 }
 
-class PausedDownloadFileState extends DownloadState {}
+class PausedDownloadFileState extends DownloadState {
+  final double percent;
+  PausedDownloadFileState(this.percent);
+}
 
 class CompletedDownloadinfState extends DownloadState {
   final File file;

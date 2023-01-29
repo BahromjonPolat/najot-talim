@@ -26,8 +26,8 @@ part 'download_event.dart';
 part 'download_state.dart';
 
 class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
-  final ApiService _service = ApiService();
   late StreamSubscription subscription;
+  double _percent = 0;
 
   DownloadBloc() : super(DownloadInitial()) {
     on<DownloadFromUrl>(_downloadFile);
@@ -35,6 +35,7 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     on<ResumeDownloadinfFile>(_resume);
     on<CheckFileEvent>(_checkFile);
     on<DownloadingEvent>(_loading);
+    on<OnCompleteEvent>(_onComplete);
   }
 
   FutureOr<void> _checkFile(
@@ -64,17 +65,14 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     var response = httpClient.send(request);
 
     response.asStream().listen((http.StreamedResponse r) {
-      r.stream.listen((List<int> chunk) {
+      subscription = r.stream.listen((List<int> chunk) {
         // Display percentage of completion
-        double percent = downloaded / r.contentLength! * 100;
+        _percent = downloaded / r.contentLength! * 100;
 
         chunks.add(chunk);
         downloaded += chunk.length;
-        add(DownloadingEvent(percent));
+        add(DownloadingEvent(_percent));
       }, onDone: () async {
-        // Display percentage of completion
-
-        // Save the file
         final Uint8List bytes = Uint8List(r.contentLength!);
         int offset = 0;
         for (List<int> chunk in chunks) {
@@ -82,8 +80,16 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
           offset += chunk.length;
         }
         await file.writeAsBytes(bytes);
+        add(OnCompleteEvent(file));
       });
     });
+  }
+
+  FutureOr<void> _onComplete(
+    OnCompleteEvent event,
+    Emitter emit,
+  ) {
+    emit(CompletedDownloadinfState(event.file));
   }
 
   FutureOr<void> _loading(
@@ -98,7 +104,7 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     Emitter emit,
   ) {
     subscription.pause();
-    emit(PausedDownloadFileState());
+    emit(PausedDownloadFileState(_percent));
   }
 
   FutureOr<void> _resume(
