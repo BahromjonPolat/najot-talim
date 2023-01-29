@@ -6,7 +6,6 @@
   Telegram: https://t.me/@azizbek_kv
 
   Documentation: 
-  
 
 */
 
@@ -17,7 +16,7 @@ import 'package:nt/view/screens/card/constants/color.dart';
 import 'package:nt/view/screens/card/widget/app_dialog.dart';
 import 'package:nt/view/screens/card/widget/buttons.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
-import 'package:nt/view/screens/card/widget/input_with_title.dart';
+
 import 'package:uuid/uuid.dart';
 
 import '../../../config/components/toast.dart';
@@ -68,16 +67,12 @@ class _AddCardState extends State<AddCard> {
       cardName,
       cardUser,
       cardType,
+      colorIndex,
     );
   }
 
-  _apiAddPost(
-    String number,
-    String date,
-    String name,
-    String user,
-    String type,
-  ) async {
+  _apiAddPost(String number, String date, String name, String user, String type,
+      int gradientindex) async {
     String id = const Uuid().v4();
 
     var card = CardModel(
@@ -86,7 +81,7 @@ class _AddCardState extends State<AddCard> {
       cardNumber: number,
       expireDate: date,
       gradient: ColorModel.colorMap[gradientindex],
-      iconImage: await AppFormatter.assetToBytes("assets/images/humo.jpg"),
+      iconImage: [1, 2, 3],
       // iconImage: PicToBytes.picToBytes(),
       moneyAmount: type,
       owner: user,
@@ -107,8 +102,8 @@ class _AddCardState extends State<AddCard> {
         title: const Center(child: Text('Добавит способы оплаты')),
       ),
       body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 1,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 1.1,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -140,7 +135,7 @@ class _AddCardState extends State<AddCard> {
                   ),
                 ),
                 Center(
-                  child: SizedBox(
+                  child: Container(
                     height: 60.0,
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -210,15 +205,10 @@ class _AddCardState extends State<AddCard> {
                   children: [
                     Expanded(
                       flex: 5,
-                      child: InputWithTitle(
-                        controller: cardNumberController,
-                        title: 'Karta',
-                        validator: AppValidators.codeCard,
-                        keyboardType: TextInputType.number,
-                        hint: '#### #### #### ####',
-                        formatters: [
-                          AppValidators.cardFormatter,
-                        ],
+                      child: CardWidget.textInputter(
+                        AppTextStyle.title(),
+                        cardNumberController,
+                        AppStrings.kartaraqami,
                       ),
                     ),
                     Expanded(
@@ -236,28 +226,36 @@ class _AddCardState extends State<AddCard> {
                     ),
                   ],
                 ),
-                InputWithTitle(
-                  controller: cardDateController,
-                  title: AppStrings.muddati,
-                  validator: AppValidators.cvc,
-                  hint: '##/##',
-                  keyboardType: TextInputType.number,
-                  formatters: [AppValidators.cardDateFormatter],
+                CardWidget.textInputter(AppTextStyle.title(),
+                    cardDateController, AppStrings.muddati),
+                CardWidget.textInputter(AppTextStyle.title(),
+                    cardNameController, AppStrings.kartanomi),
+                CardWidget.textInputter(AppTextStyle.title(),
+                    cardUserController, AppStrings.kartaegasi),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  child: Text(
+                    AppStrings.kartaturi,
+                    style: AppTextStyle.title().copyWith(fontSize: 16),
+                  ),
                 ),
-                CardWidget.textInputter(
-                  AppTextStyle.title(),
-                  cardNameController,
-                  AppStrings.kartanomi,
-                ),
-                CardWidget.textInputter(
-                  AppTextStyle.title(),
-                  cardUserController,
-                  AppStrings.kartaegasi,
-                ),
-                CardWidget.textInputter(
-                  AppTextStyle.title(),
-                  cardTypeController,
-                  AppStrings.kartaturi,
+                Form(
+                  key: _formKey,
+                  child: AppInputField(
+                    controller: cardTypeController,
+                    hint: AppStrings.kartaturi,
+                    readOnly: true,
+                    validator: (v) =>
+                        v!.isEmpty ? AppStrings.pleaseSelectCard : null,
+                    suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    onTap: () {
+                      AppDialog dialog = AppDialog(context);
+
+                      dialog.showCupertinoModalSheet(
+                          actions: [_setAction(), _setAction2()]);
+                    },
+                  ),
                 ),
                 const Spacer(),
                 ElevatedButton(
