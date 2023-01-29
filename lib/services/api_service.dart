@@ -27,7 +27,6 @@ class ApiService implements ApiServiceInterface {
         url,
         headers: headers,
       );
-
       return getResult(response);
     } catch (err) {
       return HttpResult(statusCode: 1200, response: err);
@@ -47,7 +46,6 @@ class ApiService implements ApiServiceInterface {
         body: jsonEncode(body ?? '{}'),
         headers: headers,
       );
-
       return getResult(response);
     } catch (err) {
       return HttpResult(statusCode: 1200, response: err);
@@ -58,7 +56,7 @@ class ApiService implements ApiServiceInterface {
   HttpResult getResult(http.Response response) {
     dynamic decodedData = jsonDecode(response.body);
     HttpResult result = HttpResult(
-      isSuccess: decodedData['error'].toString().toLowerCase() == 'ok',
+      isSuccess: response.statusCode == 200 || response.statusCode == 201,
       statusCode: response.statusCode,
       response: decodedData,
     );
@@ -67,5 +65,5 @@ class ApiService implements ApiServiceInterface {
   }
 
   @override
-  String get baseUrl => 'https://pos.in1.uz/api';
+  String get baseUrl => 'https://najot-exam.free.mockoapp.net';
 }
