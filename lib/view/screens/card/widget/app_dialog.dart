@@ -1,7 +1,14 @@
-/* 
-    Created by Bahromjon Po'lat
-    Created at 31.08.2022 19:22
+/*
+
+  Created by: Azizbek
+  Created on: Jan 29 2023 23:35:40
+  Github: https://github.com/CoderAltair
+  Telegram: https://t.me/@azizbek_kv
+
+  Documentation: 
+
 */
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

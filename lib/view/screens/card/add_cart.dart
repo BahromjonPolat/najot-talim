@@ -1,3 +1,15 @@
+/*
+
+  Created by: Azizbek
+  Created on: Jan 29 2023 23:35:06
+  Github: https://github.com/CoderAltair
+  Telegram: https://t.me/@azizbek_kv
+
+  Documentation: 
+  
+
+*/
+
 import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
@@ -70,12 +82,11 @@ class _AddCardState extends State<AddCard> {
       cardNumber: number,
       expireDate: date,
       gradient: ColorModel.colorMap[gradientindex],
-      iconImage: [1, 2, 2, 2, 2],
+      iconImage: await AppFormatter.assetToBytes("assets/images/humo.jpg"),
       // iconImage: PicToBytes.picToBytes(),
       moneyAmount: type,
       owner: user,
       userId: "123",
-      // userId: userIiid['serial'],
     );
 
     FSDBService.creatCard(card).then((value) => {

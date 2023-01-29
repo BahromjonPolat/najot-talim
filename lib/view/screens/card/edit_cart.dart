@@ -1,3 +1,15 @@
+
+/*
+
+  Created by: Azizbek
+  Created on: Jan 29 2023 23:35:23
+  Github: https://github.com/CoderAltair
+  Telegram: https://t.me/@azizbek_kv
+
+  Documentation: 
+
+*/
+
 import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';

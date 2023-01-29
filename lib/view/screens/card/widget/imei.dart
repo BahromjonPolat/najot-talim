@@ -1,3 +1,14 @@
+/*
+
+  Created by: Azizbek
+  Created on: Jan 29 2023 23:35:59
+  Github: https://github.com/CoderAltair
+  Telegram: https://t.me/@azizbek_kv
+
+  Documentation: 
+
+*/
+
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';

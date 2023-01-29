@@ -1,3 +1,14 @@
+/*
+
+  Created by: Azizbek
+  Created on: Jan 29 2023 23:36:22
+  Github: https://github.com/CoderAltair
+  Telegram: https://t.me/@azizbek_kv
+
+  Documentation: 
+
+*/
+
 class ColorModel {
   static Map<int, List> colorMap = {
     0: [
