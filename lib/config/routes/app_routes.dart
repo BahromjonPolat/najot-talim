@@ -12,6 +12,7 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:nt/view/screens/card/card_screen.dart';
 
 import 'routes.dart';
 
@@ -21,8 +22,8 @@ class AppRoutes {
     Object? args = settings.arguments;
     String? name = settings.name;
     switch (name) {
-      // case RouteNames.login:
-      //   return _route(const LoginScreen());
+      case RouteNames.card:
+        return _route(const CardScreen());
 
       // case RouteNames.home:
       //   return _route(const HomeScreen());
