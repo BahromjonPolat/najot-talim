@@ -14,7 +14,7 @@ class ApiFailed extends ApiState {}
 class ApiLoading extends ApiState {}
 
 class ApiLoaded extends ApiState {
-  final List<ApiModel> apiModel;
+  final List<CountriesModelForHive> apiModel;
   const ApiLoaded(this.apiModel);
 }
 class ApiError extends ApiState {
