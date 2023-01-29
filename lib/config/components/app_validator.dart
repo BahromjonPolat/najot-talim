@@ -41,5 +41,42 @@ class AppValidators {
     return RegExp(pattern).hasMatch(value);
   }
 
+  static String? codeCard(value) {
+    if (value.isEmpty) {
+      return "Please, Fill the field";
+    } else if (value.length < 19) {
+      return "Please enter card code";
+    }
+    return null;
+  }
+
+  static String? mmYY(value) {
+    if (value.isEmpty) {
+      return "Please, Fill the field";
+    } else if (value.length < 5) {
+      return "Enter Card MM/YY";
+    }
+    return null;
+  }
+
+  static String? cvc(value) {
+    if (value.isEmpty) {
+      return "Please, Fill the field";
+    } else if (value.length < 3) {
+      return "Please, Enter valid CVC";
+    }
+    return null;
+  }
+
+  // Credit card formatters
+  static final cardFormatter = MaskTextInputFormatter(
+    mask: '#### #### #### ####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
+
+  static final cardDateFormatter = MaskTextInputFormatter(
+    mask: '##/##',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
   static const String _phonePattern = r'^\+998(33|88|9[01345789])[0-9]{7}$';
 }

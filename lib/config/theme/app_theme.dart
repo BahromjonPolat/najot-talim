@@ -162,7 +162,7 @@ class AppTheme {
         counterStyle: const TextStyle(fontSize: 0.0, height: 0.0),
 
         // hint style
-        hintStyle: AppTextStyle.medium(size: 16.0, color: AppColors.grey),
+        hintStyle: AppTextStyle.title(color: Colors.grey, size: 15.0),
 
         // label style
         labelStyle: AppTextStyle.medium(size: 16.sp),

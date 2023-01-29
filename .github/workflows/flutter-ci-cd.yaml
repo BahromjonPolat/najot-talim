@@ -78,7 +78,7 @@ jobs:
       - name: Build APK
 
         run: |
-          flutter build apk
+          flutter build apk --build-name v1.0.${{github.run_number}} --build-number github.run_number 
           echo "Removing signing files for extra security"
       #     rm android/key.*
       # - name: Upload AAB artifact
@@ -120,22 +120,22 @@ jobs:
       # - name: Build AAB
       #   run: flutter build appbundle # --split-per-abi
 
-      # - name: Push release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     artifacts: ${{ env.PATH_TO_APK }}
-      #     tag: v1.0.${{github.run_number}}
-      #     token: ${{ secrets.TOKEN }}
+      - name: Push release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ env.PATH_TO_APK }}
+          tag: v1.0.${{github.run_number}}
+          token: ${{ secrets.TOKEN }}
 
-      # - name: Send build version to Telegram
-      #   uses: appleboy/telegram-action@master
-      #   with:
-      #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
-      #     token: ${{ secrets.TELEGRAM_TOKEN }}
-      #     message: |
-      #       ${{ github.actor }} created commit:
-      #       Commit message: ${{ github.event.commits[0].message }}
-      #       Repository: ${{ github.repository }}
-      #       See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-      #     document: ${{ env.PATH_TO_AAB}}
+      - name: Send build version to Telegram
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Repository: ${{ github.repository }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          document: ${{ env.PATH_TO_APK}}
 
