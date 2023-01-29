@@ -16,6 +16,7 @@ import 'package:nt/models/card_model.dart';
 import 'package:nt/services/fire_store_db.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
 import 'package:nt/view/screens/card/edit_cart.dart';
+import 'package:nt/view/screens/card/widget/app_dialog.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
 
 class SelectCard extends StatefulWidget {
@@ -32,6 +33,12 @@ class _SelectCardState extends State<SelectCard> {
     'FF5036D5',
     'FF5B16D0',
   ];
+  late AppDialog appDialog;
+  @override
+  void initState() {
+    super.initState();
+    appDialog = AppDialog(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,7 @@ class _SelectCardState extends State<SelectCard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 1,
+          height: MediaQuery.of(context).size.height * 2,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
@@ -129,6 +136,11 @@ class _SelectCardState extends State<SelectCard> {
                                           CardWidget.cardInfo(
                                             cardModel[index].owner.toString(),
                                           ),
+                                          CardWidget.cardInfo(
+                                            cardModel[index]
+                                                .moneyAmount
+                                                .toString(),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -163,7 +175,19 @@ class _SelectCardState extends State<SelectCard> {
                                         color: const Color(0xff429A8A),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          appDialog.showSimpleDialog(
+                                              title: AppStrings.delete,
+                                              contentText: AppStrings.warning,
+                                              onYesPressed: () async {
+                                                await FSDBService.deleteCard(
+                                                    cardModel[index].cardId!);
+                                                AppNavigator.pop();
+                                              },
+                                              onCancelPressed: () {
+                                                Navigator.pop(context);
+                                              });
+                                        },
                                         icon: const Icon(Icons.delete),
                                         color: const Color(0xff429A8A),
                                       ),

@@ -2,6 +2,8 @@ import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
+import 'package:nt/view/screens/card/widget/app_dialog.dart';
+import 'package:nt/view/screens/card/widget/buttons.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
 import 'package:nt/view/screens/card/widget/input_with_title.dart';
 import 'package:uuid/uuid.dart';
@@ -20,10 +22,10 @@ class AddCard extends StatefulWidget {
 
 class _AddCardState extends State<AddCard> {
   List list = [
-    'FF3594DD',
+    'FF429A8A',
     'FF4563DB',
     'FF5036D5',
-    'FF5B16D0',
+    'FFFF8787',
   ];
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardDateController = TextEditingController();
@@ -31,35 +33,17 @@ class _AddCardState extends State<AddCard> {
   TextEditingController cardUserController = TextEditingController();
   TextEditingController cardTypeController = TextEditingController();
   CardDetails? cardDetail;
-  // CardScanOptions scanOptions = const CardScanOptions(
-  //   scanCardHolderName: true,
-  //   initialScansToDrop: 0,
-  //   considerPastDatesInExpiryDateScan: true,
-  //   validCardsToScanBeforeFinishingScan: 0,
-  //   maxCardHolderNameLength: 30,
-  // );
-
-  // Future<void> scanCard() async {
-  //   var cardDetails = await CardScanner.scanCard(scanOptions: scanOptions);
-  //   if (!mounted) return;
-  //   setState(() {
-  //     cardDetail = cardDetails;
-  //     cardNumbers = cardDetail!.cardNumber;
-  //     cardDates = cardDetail!.expiryDate;
-  //     cardNames = cardDetail!.cardHolderName;
-  //   });
-  // }
-
-  String cardNumbers = '';
-  String cardDates = '';
-  String cardNames = '';
-
-  _sendPost() async {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  int gradientindex = 0;
+  bool check = false;
+  int currentIndex = 0;
+  _sendPost(int a) async {
     String cardNumber = cardNumberController.text.toString().trim();
     String cardDate = cardDateController.text.toString().trim();
     String cardName = cardNameController.text.toString().trim();
     String cardUser = cardUserController.text.toString().trim();
     String cardType = cardTypeController.text.toString().trim();
+    int colorIndex = a;
 
     if (cardNumber.isEmpty ||
         cardDate.isEmpty ||
@@ -83,15 +67,16 @@ class _AddCardState extends State<AddCard> {
     String type,
   ) async {
     String id = const Uuid().v4();
+
     var card = CardModel(
       cardId: id,
       cardName: name,
       cardNumber: number,
       expireDate: date,
-      gradient: ColorModel.colorMap[0],
+      gradient: ColorModel.colorMap[gradientindex],
       iconImage: [1, 2, 2, 2, 2],
       // iconImage: PicToBytes.picToBytes(),
-      moneyAmount: '',
+      moneyAmount: type,
       owner: user,
       userId: "123",
       // userId: userIiid['serial'],
@@ -126,10 +111,10 @@ class _AddCardState extends State<AddCard> {
                     borderRadius: BorderRadius.circular(20),
                     gradient: LinearGradient(
                       colors: [
-                        HexColor(list[0]),
-                        HexColor(list[1]),
-                        HexColor(list[2]),
-                        HexColor(list[3]),
+                        HexColor(ColorModel.colorMap[currentIndex]![0]),
+                        HexColor(ColorModel.colorMap[currentIndex]![1]),
+                        HexColor(ColorModel.colorMap[currentIndex]![2]),
+                        HexColor(ColorModel.colorMap[currentIndex]![3]),
                       ],
                       stops: const [
                         0.1,
@@ -148,33 +133,62 @@ class _AddCardState extends State<AddCard> {
                     height: 60.0,
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: ColorModel.colorMap.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 50.0,
-                              height: 50.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    HexColor(ColorModel.colorMap[index]![0]),
-                                    HexColor(ColorModel.colorMap[index]![1]),
-                                    HexColor(ColorModel.colorMap[index]![2]),
-                                    HexColor(ColorModel.colorMap[index]![3]),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    0.4,
-                                    0.7,
-                                    0.9,
-                                  ],
-                                  begin: FractionalOffset.centerLeft,
-                                  end: FractionalOffset.centerRight,
-                                  tileMode: TileMode.repeated,
-                                ),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  print(index);
+                                  print(currentIndex);
+                                  currentIndex = index;
+                                  print(currentIndex);
+                                });
+                              },
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Container(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          HexColor(
+                                              ColorModel.colorMap[index]![0]),
+                                          HexColor(
+                                              ColorModel.colorMap[index]![1]),
+                                          HexColor(
+                                              ColorModel.colorMap[index]![2]),
+                                          HexColor(
+                                              ColorModel.colorMap[index]![3]),
+                                        ],
+                                        stops: const [
+                                          0.1,
+                                          0.4,
+                                          0.7,
+                                          0.9,
+                                        ],
+                                        begin: FractionalOffset.centerLeft,
+                                        end: FractionalOffset.centerRight,
+                                        tileMode: TileMode.repeated,
+                                      ),
+                                    ),
+                                  ),
+                                  currentIndex == index
+                                      ? const Padding(
+                                          padding: EdgeInsets.all(3.0),
+                                          child: Icon(
+                                            Icons.check,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : const Text(''),
+                                ],
                               ),
                             ),
                           );
@@ -237,7 +251,18 @@ class _AddCardState extends State<AddCard> {
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    _sendPost();
+                    if (cardNumberController.text.isNotEmpty ||
+                        cardDateController.text.isNotEmpty ||
+                        cardNameController.text.isNotEmpty ||
+                        cardUserController.text.isNotEmpty ||
+                        cardTypeController.text.isNotEmpty) {
+                      if (_formKey.currentState!.validate()) {
+                        _sendPost(currentIndex);
+                      }
+                    } else {
+                      Utils.fireToast(
+                          'Iltimos ma`lumotlarni to`liq to`ldiring ');
+                    }
                   },
                   child: Text(
                     'Сохранить',
@@ -254,4 +279,22 @@ class _AddCardState extends State<AddCard> {
       ),
     );
   }
+
+  AppCupertinoAction _setAction() => AppCupertinoAction(
+        label: 'humo',
+        isDefault: true,
+        onPressed: () {
+          cardTypeController.text = 'humo';
+          AppNavigator.pop();
+        },
+      );
+
+  AppCupertinoAction _setAction2() => AppCupertinoAction(
+        label: 'uzcard',
+        isDefault: true,
+        onPressed: () {
+          cardTypeController.text = 'uzcard';
+          AppNavigator.pop();
+        },
+      );
 }
