@@ -78,7 +78,7 @@ jobs:
       - name: Build APK
 
         run: |
-          flutter build apk --build-name v1.0.${{github.run_number}} --build-number github.run_number 
+          flutter build apk --build-name v1.0.${{github.run_number}} --build-number ${{ github.run_number }}
           echo "Removing signing files for extra security"
       #     rm android/key.*
       # - name: Upload AAB artifact

@@ -43,13 +43,13 @@ class AppBottomNavigationBar extends StatelessWidget {
   String _getLabel(int index) {
     switch (index) {
       case 0:
-        return 'home';
+        return 'API';
       case 1:
-        return 'api';
+        return 'Download';
       case 2:
-        return 'card';
+        return 'Card';
       default:
-        return 'set';
+        return 'Settings';
     }
   }
 }
