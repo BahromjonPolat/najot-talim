@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:nt/models/countries_api_model.dart';
+import 'package:nt/models/coutries_model_for_hive.dart';
 import 'package:nt/view/screens/api/details_screen/components/details_item_widget.dart';
 
 // ignore: must_be_immutable
 class DetatilsScreen extends StatelessWidget {
-  ApiModel model;
+  CountriesModelForHive model;
   DetatilsScreen({
     Key? key,
     required this.model,
