@@ -14,8 +14,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/blocs.dart';
-import 'package:nt/view/screens/card/select_card.dart';
+import 'package:nt/view/screens/download/download.dart';
 import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
+
+import '../download/download_page.dart';
+import 'package:nt/view/screens/card/select_card.dart';
 
 import '../api/api_screen.dart';
 
@@ -29,7 +32,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     ApiScreen(),
-    Container(),
+    const DownloadPage(),
     const SelectCard(),
     Container(),
   ];
