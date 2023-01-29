@@ -32,6 +32,9 @@ class AppDialog {
     String title = '',
     String contentText = '',
     VoidCallback? onYesPressed,
+        VoidCallback? onCancelPressed,
+
+    
   }) async {
     showDialog(
         context: context,
@@ -42,12 +45,12 @@ class AppDialog {
             contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
             actions: [
               TextButton(
-                onPressed: () {},
-                child: Text('ok'),
+                onPressed: onYesPressed,
+                child: const Text('ok'),
               ),
               TextButton(
-                onPressed: () {},
-                child: Text('cann'),
+                onPressed: onCancelPressed,
+                child: const Text('cancel'),
               ),
             ],
           );

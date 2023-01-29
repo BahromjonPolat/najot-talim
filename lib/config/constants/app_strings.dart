@@ -27,5 +27,8 @@ class AppStrings {
   static const String add = 'Qo`shish';
   static const String edit = 'Kartani tahrirlash';
   static const String pleaseSelectCard = 'Iltimos karta turini tanlang';
+  static const String delete = 'O`chirmoqchimisz ??';
+  static const String warning =
+      'Agar siz joriy kartani o`chirsangiz qaytib tiklay olmaysiz';
   const AppStrings._();
 }
