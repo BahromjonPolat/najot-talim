@@ -1,7 +1,7 @@
 /*
 
   Created by: Bakhromjon Polat
-  Created on: Jan 29 2023 14:40:40
+  Created on: Jan 29 2023 16:45:22
   Github: https://github.com/BahromjonPolat
   Leetcode: https://leetcode.com/BahromjonPolat/
   LinkedIn: https://linkedin.com/in/bahromjon-polat
@@ -11,84 +11,79 @@
 
 */
 
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
+import 'package:flutter/services.dart';
+import 'package:nt/config/constants/constants.dart';
+import 'package:path_provider/path_provider.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 class DownloadListTile extends StatefulWidget {
-  final String url;
-
-  const DownloadListTile({Key? key, required this.url}) : super(key: key);
+  const DownloadListTile({super.key});
 
   @override
-  State<DownloadListTile> createState() => _CourseListItemPage();
+  State<DownloadListTile> createState() => _DownloadListTileState();
 }
 
-class _CourseListItemPage extends State<DownloadListTile> {
-  int downloadProgress = 0;
-
-  bool isDownloadStarted = false;
-
-  bool isDownloadFinish = false;
-
+class _DownloadListTileState extends State<DownloadListTile> {
+  late StreamSubscription subscription;
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.url),
-      leading: CircleAvatar(
-        radius: 20,
-        backgroundColor: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-            .withOpacity(1.0),
-        child: Text(
-          widget.url.substring(0, 1),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      trailing: Column(
-        children: [
-          // Visibility(
-          //   visible: isDownloadStarted,
-          //   child: CircularPercentIndicator(
-          //     radius: 20.0,
-          //     lineWidth: 3.0,
-          //     percent: (downloadProgress / 100),
-          //     center: Text(
-          //       "$downloadProgress%",
-          //       style: const TextStyle(fontSize: 12, color: Colors.blue),
-          //     ),
-          //     progressColor: Colors.blue,
-          //   ),
-          // ),
-          Visibility(
-            visible: !isDownloadStarted,
-            child: IconButton(
-              icon: const Icon(Icons.download),
-              color: isDownloadFinish ? Colors.green : Colors.grey,
-              onPressed: downloadCourse,
-            ),
-          )
-        ],
+      title: const Text('Hello'),
+      onTap: () {
+        subscription.pause();
+      },
+      trailing: IconButton(
+        color: AppColors.black,
+        icon: const Icon(Icons.download),
+        onPressed: () {
+          print('dafasdf');
+          downloadFile(
+            url: 'https://bilimlar.uz/wp-content/uploads/2021/02/k100001.pdf',
+            fileName: 'hello.pdf',
+          );
+        },
       ),
     );
   }
 
-  void downloadCourse() async {
-    isDownloadStarted = true;
-    isDownloadFinish = false;
-    downloadProgress = 0;
-    setState(() {});
+  downloadFile({required String fileName, required String url}) async {
+    print('dsfadsfadsf');
+    var httpClient = http.Client();
+    var request = http.Request('GET', Uri.parse(url));
+    var response = httpClient.send(request);
+    String dir = (await getApplicationDocumentsDirectory()).path;
 
-    //Download logic
-    while (downloadProgress < 100) {
-      // Get download progress
-      downloadProgress += 10;
-      setState(() {});
-      if (downloadProgress == 100) {
-        isDownloadFinish = true;
-        isDownloadStarted = false;
-        setState(() {});
-        break;
-      }
-      await Future.delayed(const Duration(milliseconds: 500));
-    }
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+    print('============');
+
+    response.asStream().listen((http.StreamedResponse r) {
+      subscription = r.stream.listen((List<int> chunk) {
+        debugPrint(
+            'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+        chunks.add(chunk);
+        downloaded += chunk.length;
+      }, onDone: () async {
+        // Display percentage of completion
+        debugPrint(
+            'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+        // Save the file
+        File file = File('$dir/$fileName');
+        final Uint8List bytes = Uint8List(r.contentLength!);
+        int offset = 0;
+        for (List<int> chunk in chunks) {
+          bytes.setRange(offset, offset + chunk.length, chunk);
+          offset += chunk.length;
+        }
+        await file.writeAsBytes(bytes);
+      });
+    });
   }
 }

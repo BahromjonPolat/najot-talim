@@ -17,6 +17,8 @@ import 'package:nt/blocs/blocs.dart';
 import 'package:nt/view/screens/download/download.dart';
 import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
 
+import '../download/download_page.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
