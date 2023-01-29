@@ -15,6 +15,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -109,5 +110,45 @@ class ApiService implements ApiServiceInterface {
         await file.writeAsBytes(bytes);
       });
     });
+  }
+
+  Stream<http.StreamedResponse> downloadFiles({
+    required String fileName,
+    required String url,
+  }) async* {
+    var httpClient = http.Client();
+    var request = http.Request('GET', Uri.parse(url));
+    var response = httpClient.send(request);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+
+    yield* response.asStream();
+
+    // listen((http.StreamedResponse r) {
+    //   r.stream.listen((List<int> chunk) {
+    //     // Display percentage of completion
+    //     debugPrint(
+    //         'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+    //     chunks.add(chunk);
+    //     downloaded += chunk.length;
+    //   }, onDone: () async {
+    //     // Display percentage of completion
+    //     debugPrint(
+    //         'downloadPercentage: ${downloaded / r.contentLength! * 100}');
+
+    //     // Save the file
+    //     File file = File('$dir/$fileName');
+    //     final Uint8List bytes = Uint8List(r.contentLength!);
+    //     int offset = 0;
+    //     for (List<int> chunk in chunks) {
+    //       bytes.setRange(offset, offset + chunk.length, chunk);
+    //       offset += chunk.length;
+    //     }
+    //     await file.writeAsBytes(bytes);
+    //   });
+    // });
   }
 }
