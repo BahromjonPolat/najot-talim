@@ -14,6 +14,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/blocs.dart';
+import 'package:nt/view/screens/download/download.dart';
+import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     Container(),
-    Container(),
+    const DownloadPage(),
     Container(),
     Container(),
   ];
@@ -33,9 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationBarBloc, int>(
       builder: (context, state) {
-        return IndexedStack(
-          index: state,
-          children: pages,
+        return Scaffold(
+          body: IndexedStack(
+            index: state,
+            children: pages,
+          ),
+          bottomNavigationBar: const AppBottomNavigationBar(),
         );
       },
     );
