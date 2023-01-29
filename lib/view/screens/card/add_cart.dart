@@ -99,7 +99,9 @@ class _AddCardState extends State<AddCard> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Center(child: Text('Добавит способы оплаты')),
+        title: const Center(
+          child: Text('Karta qo`shish'),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
