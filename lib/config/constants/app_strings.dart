@@ -12,5 +12,13 @@
 */
 
 class AppStrings {
+  static var noInternet = '';
+
+  static var timeOutException = '';
+
+  static var httpError = '';
+
+  static var formatException = '';
+
   const AppStrings._();
 }
