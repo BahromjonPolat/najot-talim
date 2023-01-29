@@ -30,9 +30,9 @@ class AppBottomNavigationBar extends StatelessWidget {
   IconData _getIcon(int index) {
     switch (index) {
       case 0:
-        return AppIcons.home;
+        return AppIcons.api;
       case 1:
-        return AppIcons.box;
+        return AppIcons.download;
       case 2:
         return AppIcons.inOut;
       default:
@@ -43,13 +43,13 @@ class AppBottomNavigationBar extends StatelessWidget {
   String _getLabel(int index) {
     switch (index) {
       case 0:
-        return 'home';
+        return 'API';
       case 1:
-        return 'dsfa';
+        return 'Download';
       case 2:
-        return '';
+        return 'Card';
       default:
-        return 'set';
+        return 'Settings';
     }
   }
 }
