@@ -13,6 +13,7 @@ import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
+import 'package:nt/view/screens/card/widget/app_dialog.dart';
 import 'package:nt/view/screens/card/widget/buttons.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
 
