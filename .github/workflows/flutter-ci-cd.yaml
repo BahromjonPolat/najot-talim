@@ -1,0 +1,141 @@
+name: Flutter CI CD
+
+on:
+  push:
+    branches:
+      - "master"
+
+  # pull_request:
+  #   branches:
+  #     - "main"
+
+env:
+  FLUTTER_CHANNEL: "stable"
+  FLUTTER_VERSION: "3.3.5"
+  PATH_TO_APK: "build/app/outputs/apk/release/*.apk"
+  PATH_TO_AAB: "build/app/outputs/bundle/release/app-release.aab"
+  ANDROID_BUNDLE_ID: "uz.mirrikh.nt"
+
+jobs:
+  code-analysis-and-testing:
+    if: true
+    name: Code analysis and testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Show flutter version
+        run: flutter --version
+
+      # - name: Flutter analyze
+      #   run: flutter analyze
+
+  build-android:
+    if: true
+    name: Build android app
+    needs: code-analysis-and-testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # - name: Prepare key.jks & key.properties files
+      #   env:
+      #     KEYSTORE_FILE_BASE64: ${{ secrets.SIGNING_KEY_ALIAS }}
+      #     KEY_PROPERTIES_FILE: ${{ secrets.KEY_PROPERTIES }}
+      #   run: |
+      #     echo "Convert key base64 string to a file"
+      #     echo "$KEYSTORE_FILE_BASE64" >> key.jks.base64
+      #     base64 --decode key.jks.base64 > key.jks
+      #     echo "Convert key.properties secret string to a file"
+      #     echo "$KEY_PROPERTIES_FILE" >> key.properties
+      #   working-directory: "android/"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Show version
+        run: flutter --version
+
+      - name: Flutter doctor
+        run: flutter doctor
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+
+        run: |
+          flutter build apk
+          echo "Removing signing files for extra security"
+      #     rm android/key.*
+      # - name: Upload AAB artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: release-aab
+      #     path: ${{ env.PATH_TO_AAB }}
+
+      # - name: Decode google service account json
+
+      #   env:
+      #     GOOGLE_SERVIVE_ACCOUNT_TEXT_PLAIN: ${{ secrets.GOOGLE_SERVIVE_ACCOUNT_TEXT_PLAIN }}
+      #     PLAY_STORE_JSON: ${{ secrets.PLAY_STORE_JSON }}
+
+      #   run: |
+      #     echo "Convert key base64 string to a file"
+      #     echo "$PLAY_STORE_JSON" >> google_service_account.json.base64
+      #     cat google_service_account.json.base64
+      #     base64 --decode google_service_account.json.base64 > google_service_account.json
+      #     cat google_service_account.json
+      # - name: Upload to Play Store
+      #   uses: r0adkll/upload-google-play@v1
+      #   with:
+      #     serviceAccountJson: /home/runner/work/domain-driven-design/domain-driven-design/google_service_account.json
+      #     packageName: ${{ env.ANDROID_BUNDLE_ID }}
+      #     releaseFiles: ${{ env.PATH_TO_AAB }}
+      #     track: internal
+      #     status: inProgress
+          # inAppUpdatePriority: 2
+          # userFraction: 1.0
+          # whatsNewDirectory: distribution/whatsnew
+          # mappingFile: app/build/outputs/mapping/release/mapping.txt
+          # debugSymbols: app/intermediates/merged_native_libs/release/out/lib
+
+      # - name: Upload to Play Store
+      #   run: |
+      #     fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.PLAY_CONSOLE_JSON }}' --package_name '${{ env.ANDROID_BUNDLE_ID }}' --track 'internal'
+
+      # - name: Build AAB
+      #   run: flutter build appbundle # --split-per-abi
+
+      # - name: Push release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: ${{ env.PATH_TO_APK }}
+      #     tag: v1.0.${{github.run_number}}
+      #     token: ${{ secrets.TOKEN }}
+
+      # - name: Send build version to Telegram
+      #   uses: appleboy/telegram-action@master
+      #   with:
+      #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
+      #     token: ${{ secrets.TELEGRAM_TOKEN }}
+      #     message: |
+      #       ${{ github.actor }} created commit:
+      #       Commit message: ${{ github.event.commits[0].message }}
+      #       Repository: ${{ github.repository }}
+      #       See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+      #     document: ${{ env.PATH_TO_AAB}}
+

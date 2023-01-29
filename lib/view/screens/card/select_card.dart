@@ -45,7 +45,7 @@ class _SelectCardState extends State<SelectCard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 1,
+          height: MediaQuery.of(context).size.height * 2  ,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
@@ -123,6 +123,11 @@ class _SelectCardState extends State<SelectCard> {
                                           ),
                                           CardWidget.cardInfo(
                                             cardModel[index].owner.toString(),
+                                            
+                                          ),
+                                            CardWidget.cardInfo(
+                                            cardModel[index].moneyAmount.toString(),
+                                            
                                           ),
                                         ],
                                       ),
@@ -158,7 +163,10 @@ class _SelectCardState extends State<SelectCard> {
                                         color: const Color(0xff429A8A),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          FSDBService.deleteCard(
+                                              cardModel[index].cardId!);
+                                        },
                                         icon: const Icon(Icons.delete),
                                         color: const Color(0xff429A8A),
                                       ),

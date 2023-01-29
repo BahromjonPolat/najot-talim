@@ -2,9 +2,10 @@ import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
+import 'package:nt/view/screens/card/widget/app_dialog.dart';
+import 'package:nt/view/screens/card/widget/buttons.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
-import 'package:nt/view/screens/card/widget/imei.dart';
-import 'package:nt/view/screens/card/widget/pic_to_bytes.dart';
+
 import 'package:uuid/uuid.dart';
 
 import '../../../config/components/toast.dart';
@@ -32,25 +33,7 @@ class _AddCardState extends State<AddCard> {
   TextEditingController cardUserController = TextEditingController();
   TextEditingController cardTypeController = TextEditingController();
   CardDetails? cardDetail;
-  // CardScanOptions scanOptions = const CardScanOptions(
-  //   scanCardHolderName: true,
-  //   initialScansToDrop: 0,
-  //   considerPastDatesInExpiryDateScan: true,
-  //   validCardsToScanBeforeFinishingScan: 0,
-  //   maxCardHolderNameLength: 30,
-  // );
-
-  // Future<void> scanCard() async {
-  //   var cardDetails = await CardScanner.scanCard(scanOptions: scanOptions);
-  //   if (!mounted) return;
-  //   setState(() {
-  //     cardDetail = cardDetails;
-  //     cardNumbers = cardDetail!.cardNumber;
-  //     cardDates = cardDetail!.expiryDate;
-  //     cardNames = cardDetail!.cardHolderName;
-  //   });
-  // }
-
+  final GlobalKey<FormState> _formKey = GlobalKey();
   String cardNumbers = '';
   String cardDates = '';
   String cardNames = '';
@@ -87,7 +70,7 @@ class _AddCardState extends State<AddCard> {
       gradient: ColorModel.colorMap[0],
       iconImage: [1, 2, 2, 2, 2],
       // iconImage: PicToBytes.picToBytes(),
-      moneyAmount: '',
+      moneyAmount:type ,
       owner: user,
       userId: "123",
       // userId: userIiid['serial'],
@@ -108,7 +91,7 @@ class _AddCardState extends State<AddCard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height * 1,
+          height: MediaQuery.of(context).size.height * 1.1,
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -208,12 +191,46 @@ class _AddCardState extends State<AddCard> {
                     cardNameController, AppStrings.kartanomi),
                 CardWidget.textInputter(AppTextStyle.title(),
                     cardUserController, AppStrings.kartaegasi),
-                CardWidget.textInputter(AppTextStyle.title(),
-                    cardTypeController, AppStrings.kartaturi),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  child: Text(
+                    AppStrings.kartaturi,
+                    style: AppTextStyle.title().copyWith(fontSize: 16),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: AppInputField(
+                    controller: cardTypeController,
+                    hint: AppStrings.kartaturi,
+                    readOnly: true,
+                    validator: (v) =>
+                        v!.isEmpty ? AppStrings.pleaseSelectCard : null,
+                    suffixIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+                    onTap: () {
+                      AppDialog dialog = AppDialog(context);
+
+                      dialog.showCupertinoModalSheet(
+                          actions: [_setAction(), _setAction2()]);
+                    },
+                  ),
+                ),
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    _sendPost();
+                    if (cardNumberController.text.isNotEmpty ||
+                        cardDateController.text.isNotEmpty ||
+                        cardNameController.text.isNotEmpty ||
+                        cardUserController.text.isNotEmpty ||
+                        cardTypeController.text.isNotEmpty) {
+                      if (_formKey.currentState!.validate()) {
+                        _sendPost();
+                      }
+                    } else {
+                      Utils.fireToast(
+                          'Iltimos ma`lumotlarni to`liq to`ldiring ');
+                    }
                   },
                   child: Text(
                     'Сохранить',
@@ -230,4 +247,22 @@ class _AddCardState extends State<AddCard> {
       ),
     );
   }
+
+  AppCupertinoAction _setAction() => AppCupertinoAction(
+        label: 'humo',
+        isDefault: true,
+        onPressed: () {
+          cardTypeController.text = 'humo';
+          AppNavigator.pop();
+        },
+      );
+
+  AppCupertinoAction _setAction2() => AppCupertinoAction(
+        label: 'uzcard',
+        isDefault: true,
+        onPressed: () {
+          cardTypeController.text = 'uzcard';
+          AppNavigator.pop();
+        },
+      );
 }
