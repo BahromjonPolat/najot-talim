@@ -10,3 +10,4 @@
   Documentation: 
 
 */
+export 'bottom_nav_bar/bottom_navigation_bar_bloc.dart';

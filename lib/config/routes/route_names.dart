@@ -1,7 +1,7 @@
 /*
 
   Created by: Bakhromjon Polat
-  Created on: Jan 29 2023 11:10:04
+  Created on: Jan 29 2023 11:24:58
   Github: https://github.com/BahromjonPolat
   Leetcode: https://leetcode.com/BahromjonPolat/
   LinkedIn: https://linkedin.com/in/bahromjon-polat
@@ -11,7 +11,7 @@
 
 */
 
-export 'routes/routes.dart';
-export 'constants/constants.dart';
-export 'theme/theme.dart';
-export 'components/components.dart';
+class RouteNames {
+  const RouteNames._();
+  static const String initial = '/initial';
+}
