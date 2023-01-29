@@ -16,5 +16,6 @@ class FSDBService {
 
   static deleteCard(String cardId) async {
     fire.collection("cards").doc(cardId).delete();
+    
   }
 }
