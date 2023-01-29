@@ -53,7 +53,7 @@ class CardWidget {
     );
   }
 
- static cardInfo(String text) {
+  static cardInfo(String text) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Text(text, style: AppTextStyle.title(color: Colors.white)),

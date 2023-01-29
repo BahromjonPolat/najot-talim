@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
-import 'package:nt/view/screens/card/widget/imei.dart';
-import 'package:nt/view/screens/card/widget/pic_to_bytes.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../config/components/toast.dart';
@@ -77,7 +75,12 @@ class _AddCardState extends State<AddCard> {
   }
 
   _apiAddPost(
-      String number, String date, String name, String user, String type) async {
+    String number,
+    String date,
+    String name,
+    String user,
+    String type,
+  ) async {
     String id = const Uuid().v4();
     var card = CardModel(
       cardId: id,
@@ -107,7 +110,7 @@ class _AddCardState extends State<AddCard> {
         title: const Center(child: Text('Добавит способы оплаты')),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 1,
           child: Padding(
             padding:
@@ -140,7 +143,7 @@ class _AddCardState extends State<AddCard> {
                   ),
                 ),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     height: 60.0,
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -202,14 +205,28 @@ class _AddCardState extends State<AddCard> {
                     ),
                   ],
                 ),
-                CardWidget.textInputter(AppTextStyle.title(),
-                    cardDateController, AppStrings.muddati),
-                CardWidget.textInputter(AppTextStyle.title(),
-                    cardNameController, AppStrings.kartanomi),
-                CardWidget.textInputter(AppTextStyle.title(),
-                    cardUserController, AppStrings.kartaegasi),
-                CardWidget.textInputter(AppTextStyle.title(),
-                    cardTypeController, AppStrings.kartaturi),
+
+                // Number
+                CardWidget.textInputter(
+                  AppTextStyle.title(),
+                  cardDateController,
+                  AppStrings.muddati,
+                ),
+                CardWidget.textInputter(
+                  AppTextStyle.title(),
+                  cardNameController,
+                  AppStrings.kartanomi,
+                ),
+                CardWidget.textInputter(
+                  AppTextStyle.title(),
+                  cardUserController,
+                  AppStrings.kartaegasi,
+                ),
+                CardWidget.textInputter(
+                  AppTextStyle.title(),
+                  cardTypeController,
+                  AppStrings.kartaturi,
+                ),
                 const Spacer(),
                 ElevatedButton(
                   onPressed: () {
