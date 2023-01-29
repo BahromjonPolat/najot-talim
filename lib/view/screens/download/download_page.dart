@@ -12,6 +12,8 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:nt/config/mock/mock_downloading_files.dart';
+import 'package:nt/models/file/file_info.dart';
 import 'package:nt/view/screens/download/components/download_list_tile.dart';
 
 class DownloadPage extends StatefulWidget {
@@ -29,9 +31,16 @@ class _DownloadPageState extends State<DownloadPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: DownloadListTile(),
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate(
+            MockFileInfoData.fileInfoList
+                .map((info) => DownloadListTile(fileInfo: info))
+                .toList(),
+          ),
+        )
+      ],
     );
   }
 }

@@ -9,4 +9,7 @@ class LoadingDownloadFileState extends DownloadState {}
 
 class PausedDownloadFileState extends DownloadState {}
 
-class CompletedDownloadinfState extends DownloadState {}
+class CompletedDownloadinfState extends DownloadState {
+  final File file;
+  CompletedDownloadinfState(this.file);
+}

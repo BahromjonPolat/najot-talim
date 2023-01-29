@@ -23,6 +23,10 @@ class AppIcons {
   static const IconData layers = Icons.layers_outlined;
   static const IconData arrows = Icons.import_export;
   static const IconData update = Icons.update;
+  static const IconData check = Icons.check;
+  static const IconData downloaded = Icons.download_done;
+  static const IconData download = Icons.download;
+
   static const String barcodeScanner = 'assets/icons/barcode-scanner.png';
   static const String excel = 'assets/icons/excel.svg';
 }

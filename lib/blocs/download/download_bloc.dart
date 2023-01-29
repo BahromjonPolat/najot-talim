@@ -14,17 +14,37 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:nt/models/file/file_info.dart';
+import 'package:nt/services/api_service.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'download_event.dart';
 part 'download_state.dart';
 
 class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
+  final ApiService _service = ApiService();
   late StreamSubscription subscription;
+
   DownloadBloc() : super(DownloadInitial()) {
     on<DownloadFromUrl>(_downloadFile);
+    on<PauseDownloadingFile>(_pause);
+    on<ResumeDownloadinfFile>(_resume);
+    on<CheckFileEvent>(_checkFile);
+  }
+
+  FutureOr<void> _checkFile(
+    CheckFileEvent event,
+    Emitter emit,
+  ) async {
+    Directory dir = await getApplicationDocumentsDirectory();
+    String fileName = event.url.split('/').last;
+    File file = File('${dir.path}/$fileName');
+    if (await file.exists()) {
+      emit(CompletedDownloadinfState(file));
+    }
   }
 
   FutureOr<void> _downloadFile(
@@ -32,7 +52,50 @@ class DownloadBloc extends Bloc<DownloadEvent, DownloadState> {
     Emitter emit,
   ) async {
     Directory dir = await getApplicationDocumentsDirectory();
-    String fileName = event.url.split('/').last;
+    String fileName = event.fileInfo.url.split('/').last;
     File file = File('${dir.path}/$fileName');
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+
+    _service
+        .downloadFiles(fileName: fileName, url: event.fileInfo.url)
+        .listen((r) {
+      subscription = r.stream.listen((List<int> chunk) {
+        chunks.add(chunk);
+        downloaded += chunk.length;
+        print(downloaded / r.contentLength! * 100);
+      }, onDone: () async {
+        final Uint8List bytes = Uint8List(r.contentLength!);
+        int offset = 0;
+
+        for (List<int> chunk in chunks) {
+          bytes.setRange(offset, offset + chunk.length, chunk);
+          offset += chunk.length;
+        }
+        await file.writeAsBytes(bytes);
+        emit(CompletedDownloadinfState(file));
+      });
+    });
+  }
+
+  FutureOr<void> _pause(
+    PauseDownloadingFile event,
+    Emitter emit,
+  ) {
+    subscription.pause();
+    emit(PausedDownloadFileState());
+  }
+
+  FutureOr<void> _resume(
+    ResumeDownloadinfFile event,
+    Emitter emit,
+  ) {
+    subscription.resume();
+  }
+
+  @override
+  Future<void> close() {
+    subscription.cancel();
+    return super.close();
   }
 }

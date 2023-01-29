@@ -1,13 +1,17 @@
 part of 'download_bloc.dart';
 
-@immutable
 abstract class DownloadEvent {}
 
 class DownloadFromUrl extends DownloadEvent {
-  final String url;
-  DownloadFromUrl({required this.url});
+  FileInfo fileInfo;
+  DownloadFromUrl({required this.fileInfo});
 }
 
 class PauseDownloadingFile extends DownloadEvent {}
 
 class ResumeDownloadinfFile extends DownloadEvent {}
+
+class CheckFileEvent extends DownloadEvent {
+  final String url;
+  CheckFileEvent(this.url);
+}
