@@ -14,6 +14,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nt/blocs/api_bloc/api_bloc.dart';
 import 'package:nt/config/config.dart';
 
 import 'blocs/blocs.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(create: (_) => BottomNavigationBarBloc()),
+            BlocProvider(create: (_) => ApiBloc()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
