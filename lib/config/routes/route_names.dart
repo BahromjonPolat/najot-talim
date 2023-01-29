@@ -15,4 +15,6 @@ class RouteNames {
   const RouteNames._();
   static const String initial = '/initial';
   static const String card = '/card';
+    static const String addCard = '/addCard';
+     static const String editCard = '/editCard';
 }

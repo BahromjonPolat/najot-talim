@@ -45,9 +45,9 @@ class AppBottomNavigationBar extends StatelessWidget {
       case 0:
         return 'home';
       case 1:
-        return 'dsfa';
+        return 'api';
       case 2:
-        return '';
+        return 'card';
       default:
         return 'set';
     }

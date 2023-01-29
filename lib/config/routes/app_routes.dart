@@ -12,7 +12,10 @@
 */
 
 import 'package:flutter/material.dart';
-import 'package:nt/view/screens/card/card_screen.dart';
+import 'package:nt/view/screens/card/add_cart.dart';
+import 'package:nt/view/screens/card/edit_cart.dart';
+import 'package:nt/view/screens/card/select_card.dart';
+import 'package:nt/view/screens/screens.dart';
 
 import 'routes.dart';
 
@@ -23,14 +26,15 @@ class AppRoutes {
     String? name = settings.name;
     switch (name) {
       case RouteNames.card:
-        return _route(const CardTask());
+        return _route(const SelectCard());
 
-      // case RouteNames.home:
-      //   return _route(const HomeScreen());
+      case RouteNames.addCard:
+        return _route(const AddCard());
 
-      // case RouteNames.verifyOtp:
-      //   return _route(const VerifyOtpScreen());
+      case RouteNames.initial:
+        return _route(const HomeScreen());
 
+    
 
       // case RouteNames.selectingBranch:
       //   return _route(const SelectingBranchScreen());

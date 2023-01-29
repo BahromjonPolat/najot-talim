@@ -14,6 +14,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/blocs.dart';
+import 'package:nt/view/screens/card/select_card.dart';
+import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     Container(),
     Container(),
-    Container(),
+   const SelectCard(),
     Container(),
   ];
   @override
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             index: state,
             children: pages,
           ),
+          bottomNavigationBar:const AppBottomNavigationBar(),
         );
       },
     );

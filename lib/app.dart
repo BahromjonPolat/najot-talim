@@ -11,12 +11,10 @@
 
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nt/config/config.dart';
-import 'package:nt/view/screens/home/home.dart';
 
 import 'blocs/blocs.dart';
 
@@ -37,7 +35,8 @@ class MyApp extends StatelessWidget {
             title: "Najot Ta'lim",
             theme: AppTheme.getApplicationTheme(),
             navigatorKey: AppNavigator.navigatorKey,
-            home: const HomeScreen(),
+            initialRoute: RouteNames.initial,
+            onGenerateRoute: AppRoutes.onGenerateRoute,
           ),
         );
       },

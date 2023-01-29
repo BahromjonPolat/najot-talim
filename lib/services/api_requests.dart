@@ -12,7 +12,6 @@
 */
 
 import 'api_service.dart';
-import 'http_result.dart';
 
 class ApiRequests extends ApiService {
   ApiRequests._();
