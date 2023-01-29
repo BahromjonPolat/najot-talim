@@ -11,6 +11,7 @@
 
 */
 import 'package:flutter/material.dart';
+import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/home/home.dart';
 
 class MyApp extends StatelessWidget {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Najot Ta'lim",
       theme: ThemeData(),
+      navigatorKey: AppNavigator.navigatorKey,
       home: const HomeScreen(),
     );
   }
