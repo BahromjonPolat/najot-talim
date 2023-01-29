@@ -158,7 +158,10 @@ class _SelectCardState extends State<SelectCard> {
                                         color: const Color(0xff429A8A),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          FSDBService.deleteCard(
+                                              cardModel[index].cardId!);
+                                        },
                                         icon: const Icon(Icons.delete),
                                         color: const Color(0xff429A8A),
                                       ),

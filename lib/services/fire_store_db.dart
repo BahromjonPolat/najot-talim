@@ -13,5 +13,8 @@ class FSDBService {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getCard(String userId) =>
       fire.collection("cards").where('userId', isEqualTo: userId).snapshots();
-      
+
+  static deleteCard(String cardId) async {
+    fire.collection("cards").doc(cardId).delete();
+  }
 }
