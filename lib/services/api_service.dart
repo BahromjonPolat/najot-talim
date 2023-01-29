@@ -11,6 +11,7 @@
 
 */
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -106,7 +107,6 @@ class ApiService implements ApiServiceInterface {
           offset += chunk.length;
         }
         await file.writeAsBytes(bytes);
-        return;
       });
     });
   }

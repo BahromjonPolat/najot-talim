@@ -12,12 +12,27 @@
 */
 
 import 'package:flutter/material.dart';
+import 'package:nt/services/api_service.dart';
 
 class DownloadPage extends StatelessWidget {
   const DownloadPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ListTile(
+          title: const Text('Python'),
+          onTap: () {
+            ApiService service = ApiService();
+            service.downloadFile(
+              fileName: 'Pyht.pdf',
+              url: 'https://bilimlar.uz/wp-content/uploads/2021/02/k100001.pdf',
+            );
+          },
+        ),
+      ],
+    );
   }
 }
