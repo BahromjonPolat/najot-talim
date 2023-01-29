@@ -160,8 +160,7 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
-      url: "https://pub.dev"
+      url: "https://pub.dartlang.org"
     source: hosted
     version: "0.18.0"
   js:
@@ -182,8 +181,7 @@ packages:
     dependency: "direct main"
     description:
       name: mask_text_input_formatter
-      sha256: "19bb7809c3c2559277e95521b3ee421e1409eb2cc85efd2feb191696c92490f4"
-      url: "https://pub.dev"
+      url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
   matcher:
