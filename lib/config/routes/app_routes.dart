@@ -16,6 +16,7 @@ import 'package:nt/view/screens/card/add_cart.dart';
 import 'package:nt/view/screens/card/edit_cart.dart';
 import 'package:nt/view/screens/card/select_card.dart';
 import 'package:nt/view/screens/screens.dart';
+import 'package:nt/view/screens/splash/splash_screen.dart';
 
 import 'routes.dart';
 
@@ -32,27 +33,10 @@ class AppRoutes {
         return _route(const AddCard());
 
       case RouteNames.initial:
+        return _route(const SplashScreen());
+
+      case RouteNames.home:
         return _route(const HomeScreen());
-
-    
-
-      // case RouteNames.selectingBranch:
-      //   return _route(const SelectingBranchScreen());
-
-      // case RouteNames.selectingDevice:
-      //   return _route(const SelectingPosDeviceScreen());
-
-      // case RouteNames.pincode:
-      //   return _route(const PincodeScreen());
-
-      // case RouteNames.barcodeScan:
-      //   return _route(const BarcodeScanPage());
-
-      // case RouteNames.general:
-      //   return _route(const GeneralScreen());
-
-      // case RouteNames.editingProfile:
-      //   return _route(const EditingProfileScreen());
 
       default:
         return null;

@@ -12,6 +12,7 @@
 */
 
 import 'dart:math' as math;
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class AppFormatter {
@@ -68,5 +69,10 @@ class AppFormatter {
     const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     var i = (math.log(bytes) / math.log(1024)).floor();
     return '${(bytes / math.pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
+  }
+
+  static Future<Uint8List> assetToBytes(String assets) async {
+    final bytes = await rootBundle.load(assets);
+    return bytes.buffer.asUint8List();
   }
 }

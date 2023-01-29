@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/blocs.dart';
 import 'package:nt/view/screens/download/download.dart';
 import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
+import 'package:nt/view/screens/settings/settings_page.dart';
 
 import '../download/download_page.dart';
 import 'package:nt/view/screens/card/select_card.dart';
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ApiScreen(),
     const DownloadPage(),
     const SelectCard(),
-    Container(),
+    const SettingsPage(),
   ];
   @override
   Widget build(BuildContext context) {
