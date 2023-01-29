@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nt/config/config.dart';
 import 'package:nt/view/screens/card/constants/color.dart';
 import 'package:nt/view/screens/card/widget/card_widget.dart';
+import 'package:nt/view/screens/card/widget/input_with_title.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../config/components/toast.dart';
@@ -184,10 +185,15 @@ class _AddCardState extends State<AddCard> {
                   children: [
                     Expanded(
                       flex: 5,
-                      child: CardWidget.textInputter(
-                        AppTextStyle.title(),
-                        cardNumberController,
-                        AppStrings.kartaraqami,
+                      child: InputWithTitle(
+                        controller: cardNumberController,
+                        title: 'Karta',
+                        validator: AppValidators.codeCard,
+                        keyboardType: TextInputType.number,
+                        hint: '#### #### #### ####',
+                        formatters: [
+                          AppValidators.cardFormatter,
+                        ],
                       ),
                     ),
                     Expanded(
@@ -205,12 +211,13 @@ class _AddCardState extends State<AddCard> {
                     ),
                   ],
                 ),
-
-                // Number
-                CardWidget.textInputter(
-                  AppTextStyle.title(),
-                  cardDateController,
-                  AppStrings.muddati,
+                InputWithTitle(
+                  controller: cardDateController,
+                  title: AppStrings.muddati,
+                  validator: AppValidators.cvc,
+                  hint: '##/##',
+                  keyboardType: TextInputType.number,
+                  formatters: [AppValidators.cardDateFormatter],
                 ),
                 CardWidget.textInputter(
                   AppTextStyle.title(),

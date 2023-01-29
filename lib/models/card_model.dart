@@ -6,7 +6,7 @@ class CardModel {
   String? moneyAmount;
   String? owner;
   String? expireDate;
-  List<int>? iconImage;
+  List<double>? iconImage;
   String? userId;
 
   CardModel({

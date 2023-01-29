@@ -51,29 +51,30 @@ class InputWithTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      textInputAction: action,
-      textCapitalization: capitalization,
-      style: AppTextStyle.medium(size: 16),
-      inputFormatters: formatters,
-      keyboardType: keyboardType,
-      readOnly: readOnly,
-      onTap: onTap,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
-        hintText: hint,
-        fillColor: fillColor,
-        filled: false,
-        suffixIcon: suffixIcon,
-        prefixIcon: Container(
-          width: 80.w,
-          alignment: Alignment.centerLeft,
-          child: Text(title),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title),
+        TextFormField(
+          controller: controller,
+          validator: validator,
+          textInputAction: action,
+          textCapitalization: capitalization,
+          style: AppTextStyle.medium(size: 16),
+          inputFormatters: formatters,
+          keyboardType: keyboardType,
+          readOnly: readOnly,
+          onTap: onTap,
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            // contentPadding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
+            hintText: hint,
+            fillColor: fillColor,
+            suffixIcon: suffixIcon,
+          ),
         ),
-      ),
+        SizedBox(height: 12.h)
+      ],
     );
   }
 }
