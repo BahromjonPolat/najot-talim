@@ -23,13 +23,14 @@ class AppRoutes {
     String? name = settings.name;
     switch (name) {
       case RouteNames.card:
-        return _route(const CardScreen());
+        return _route(const CardTask());
 
       // case RouteNames.home:
       //   return _route(const HomeScreen());
 
       // case RouteNames.verifyOtp:
       //   return _route(const VerifyOtpScreen());
+
 
       // case RouteNames.selectingBranch:
       //   return _route(const SelectingBranchScreen());
