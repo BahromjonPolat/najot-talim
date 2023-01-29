@@ -31,12 +31,20 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      AppNavigator.pushNamedAndRemoveUntil(RouteNames.home);
+      // AppNavigator.pushNamedAndRemoveUntil(RouteNames.home);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: AppColors.primary,
+      body: Center(
+        child: Text(
+          'Flutter',
+          style: AppTextStyle.bold(color: AppColors.white),
+        ),
+      ),
+    );
   }
 }
