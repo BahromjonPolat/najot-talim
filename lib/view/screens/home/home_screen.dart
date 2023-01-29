@@ -14,6 +14,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nt/blocs/blocs.dart';
+import 'package:nt/view/screens/api/api_screen.dart';
 import 'package:nt/view/screens/home/components/app_bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
-    Container(),
+    ApiScreen(),
     Container(),
     Container(),
     Container(),

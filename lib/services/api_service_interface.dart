@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 import 'http_result.dart';
 
 abstract class ApiServiceInterface {
-  final String baseUrl = 'https://';
+  final String baseUrl = 'https://najot-exam.free.mockoapp.net';
   Future<HttpResult> get(String path, {Map<String, String> headers});
 
   Future<HttpResult> post(
